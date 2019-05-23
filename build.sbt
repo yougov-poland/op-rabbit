@@ -32,12 +32,13 @@ val commonSettings = Seq(
   ),
   publishMavenStyle := true,
   publishTo := {
-    val nexus = "https://oss.sonatype.org/"
+    val nexus = "http://nexus.yougov.net/"
     if (isSnapshot.value)
       Some("snapshots" at nexus + "content/repositories/snapshots")
     else
-      Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+      Some("releases"  at nexus + "content/repositories/releases")
   },
+  credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
   licenses := Seq("Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
   homepage := Some(url("https://github.com/SpinGo/op-rabbit")),
   pomExtra := {
