@@ -64,66 +64,31 @@ a high-level feature list:
 Op-Rabbit is available on Maven Central
 
 ```scala
-val opRabbitVersion = "2.1.0"
+val opRabbitVersion = "2.2.0"
 
 libraryDependencies ++= Seq(
-  "com.spingo" %% "op-rabbit-core"        % opRabbitVersion,
-  "com.spingo" %% "op-rabbit-play-json"   % opRabbitVersion,
-  "com.spingo" %% "op-rabbit-json4s"      % opRabbitVersion,
-  "com.spingo" %% "op-rabbit-airbrake"    % opRabbitVersion,
-  "com.spingo" %% "op-rabbit-akka-stream" % opRabbitVersion
+  "com.github.pjfanning" %% "op-rabbit-core"        % opRabbitVersion,
+  "com.github.pjfanning" %% "op-rabbit-play-json"   % opRabbitVersion,
+  "com.github.pjfanning" %% "op-rabbit-json4s"      % opRabbitVersion,
+  "com.github.pjfanning" %% "op-rabbit-airbrake"    % opRabbitVersion
 )
 ```
 
 ### Scala Version Compatibility Matrix:
 
-#### op-rabbit 2.1.x
+#### op-rabbit 2.2.x
 
-Supports Scala 2.12 and Scala 2.11.
+Supports Scala 2.13 and Scala 2.12.
 
 | module                       | dependsOn                | version   |
 | ---------------------------- | ------------------------ | --------- |
 | op-rabbit-core               | akka                     | 2.5.x     |
-|                              | akka-rabbitmq            | 5.0.x     |
+|                              | akka-rabbitmq            | 5.1.x     |
 |                              | shapeless                | 2.3.x     |
 |                              | type-safe config         | 1.3.x     |
-| op-rabbit-play-json          | play-json                | 2.6.x     |
-| op-rabbit-json4s             | json4s                   | 3.5.x     |
-| op-rabbit-circe              | circe                    | 0.9.x     |
+| op-rabbit-play-json          | play-json                | 2.7.x     |
+| op-rabbit-json4s             | json4s                   | 3.6.x     |
 | op-rabbit-airbrake           | airbrake                 | 2.2.x     |
-| op-rabbit-akka-stream        | acked-stream             | 2.1.x     |
-
-#### op-rabbit 2.0.x
-
-Supports Scala 2.12 and Scala 2.11.
-
-| module                       | dependsOn                | version   |
-| ---------------------------- | ------------------------ | --------- |
-| op-rabbit-core               | akka                     | ~> 2.4.17 |
-|                              | akka-rabbitmq            | 4.0       |
-|                              | shapeless                | ~> 2.3.2  |
-|                              | type-safe config         | >= 1.3.0  |
-| op-rabbit-play-json          | play-json                | 2.6.0-M5  |
-| op-rabbit-json4s             | json4s                   | 3.5.x     |
-| op-rabbit-circe              | circe                    | 0.7.x     |
-| op-rabbit-airbrake           | airbrake                 | 2.2.x     |
-| op-rabbit-akka-stream        | acked-stream             | 2.1.x     |
-
-#### op-rabbit 1.6.x
-
-Supports Scala 2.11 only
-
-| module                       | dependsOn                | version  |
-| ---------------------------- | ------------------------ | -------- |
-| op-rabbit-core               | akka                     | ~> 2.4.2 |
-|                              | akka-rabbitmq            | 2.3      |
-|                              | shapeless                | 2.3.x    |
-|                              | type-safe config         | >= 1.3.0 |
-| op-rabbit-play-json          | play-json                | 2.5.x    |
-| op-rabbit-json4s             | json4s                   | 3.4.x    |
-| op-rabbit-circe              | circe                    | 0.5.x    |
-| op-rabbit-airbrake           | airbrake                 | 2.2.x    |
-| op-rabbit-akka-stream        | acked-stream             | 2.1.x    |
 
 ## A high-level overview of the available components:
 
@@ -143,14 +108,6 @@ Supports Scala 2.11 only
     - Report consumer exceptions to airbrake, using the
       [Airbrake](https://github.com/airbrake/airbrake-java) Java
       library.
-- `op-rabbit-akka-stream` [API](https://op-rabbit.github.io/docs/index.html#com.spingo.op_rabbit.stream.package)
-    - Process or publish messages using akka-stream.
-
-## Upgrade Guide
-
-Refer to
-[Upgrade Guide wiki page](https://github.com/SpinGo/op-rabbit/wiki/Upgrading)
-for help upgrading.
 
 ## Usage
 
@@ -490,30 +447,6 @@ refer to the [Akka Streams docs](https://doc.akka.io/docs/akka/current/stream/st
   
   src.via(flow).to(sink).run
 ```
-
-### Publishing using Akka streams
-
-(this example uses `op-rabbit-play-json` and `op-rabbit-akka-streams`)
-
-```scala
-import com.spingo.op_rabbit._
-import com.spingo.op_rabbit.stream._
-import com.spingo.op_rabbit.PlayJsonSupport._
-implicit val workFormat = Format[Work] // setup play-json serializer
-
-/* Each element in source will be acknowledged after publish
-   confirmation is received */
-AckedSource(1 to 15).
-  map(Message.queue(_, queueName)).
-  to(MessagePublisherSink(rabbitControl))
-  .run
-```
-
-If you can see the pattern here, combining an akka-stream rabbitmq
-consumer and publisher allows for guaranteed at-least-once message
-delivery from head to tail; in other words, don't acknowledge the
-original message from the message queue until any and all side-effect
-events have been published to other queues and persisted.
 
 ### Error notification
 
