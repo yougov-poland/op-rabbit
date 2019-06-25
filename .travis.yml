@@ -1,16 +1,16 @@
 language: scala
 
-scala:
-  - 2.12.6
-  - 2.13.0
-
-jdk:
-  - openjdk8
-
 services:
   - rabbitmq
 
 sudo: false
+
+jdk:
+  - openjdk8
+
+scala:
+  - 2.12.6
+  - 2.13.0
 
 cache:
   directories:
