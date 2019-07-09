@@ -64,7 +64,7 @@ a high-level feature list:
 Op-Rabbit is available on Maven Central
 
 ```scala
-val opRabbitVersion = "2.2.0"
+val opRabbitVersion = "2.2.1"
 
 libraryDependencies ++= Seq(
   "com.github.pjfanning" %% "op-rabbit-core"        % opRabbitVersion,
@@ -485,13 +485,6 @@ object Slf4jLogger extends RabbitErrorLogging {
   }
 }
 ```
-
-## Notes
-
-### Shapeless dependency
-
-Note, Op-Rabbit depends on
-[shapeless](https://github.com/milessabin/shapeless) `2.3.0`, and there is presently no published version of `spray-routing-shapeless2` which works with shapeless `2.3.0`. Consider migrating to `akka-http`, or if you must stay on spray, use [op-rabbit 1.2.x](https://github.com/SpinGo/op-rabbit/tree/v1.2.x), instead.
 
 ## Credits
 
