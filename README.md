@@ -4,60 +4,9 @@
 
 # Documentation
 
-Browse the latest [API Docs](https://op-rabbit.github.io/docs/index.html) online.
+See https://github.com/SpinGo/op-rabbit for main documentation.
 
-Issues go here; questions can be posed there as well. Please see the
-[Cookbook](https://github.com/SpinGo/op-rabbit/wiki/Cookbook), first.
-
-- https://github.com/SpinGo/op-rabbit/issues
-
-# Intro
-
-Op-Rabbit is a high-level, type-safe, opinionated, composable,
-fault-tolerant library for interacting with RabbitMQ; the following is
-a high-level feature list:
-
-- Recovery:
-    - Consumers automatically reconnect and subscribe if the
-      connection is lost
-    - Messages published will wait for a connection to be available
-- Integration
-    - Connection settings pulled from Typesafe config library
-    - Asynchronous, concurrent consumption using Scala native Futures
-      or the new Akka Streams project.
-    - Common pattern for serialization allows easy integration with
-      serialization libraries such play-json or json4s
-    - Common pattern for exception handling to publish errors to
-      Airbrake, Syslog, or all of the above
-- Modular
-    - Composition favored over inheritance enabling flexible and high
-      code reuse.
-- Modeled
-    - Queue binding, exchange binding modeled with case classes
-    - Queue, and Exchange arguments, such as `x-ttl`, are modeled
-    - HeaderValues are modeled; if you try and provide RabbitMQ an
-      invalid type for a header value, the compiler will let you know.
-    - Publishing mechanisms also modeled
-- Reliability
-    - Builds on the excellent
-      [Akka RabbitMQ client](https://github.com/thenewmotion/akka-rabbitmq)
-      library for easy recovery.
-    - Built-in consumer error recovery strategy in which messages are
-      re-delivered to the message queue and retried (not implemented
-      for akka-streams integration as retry mechanism affects message
-      order)
-    - With a single message, pause all consumers if service health
-      check fails (IE: database unavailable); easily resume the same.
-- Graceful shutdown
-    - Consumers and streams can immediately unsubscribe, but stay
-      alive long enough to wait for any messages to finish being
-      processed.
-- Program at multiple levels of abstraction
-    - If op-rabbit doesn't do what you need it to, you can either
-      extend op-rabbit or interact directly with `akka-rabbitmq`
-      [Akka RabbitMQ client](https://github.com/thenewmotion/akka-rabbitmq).
-- Tested
-    - Extensive integration tests
+This fork does not add any functionality but has published jars for Scala 2.13 support (v2.2.1) and for Play-JSON 2.8.0 (v2.3.0-SNAPSHOT).
 
 ## Installation
 
