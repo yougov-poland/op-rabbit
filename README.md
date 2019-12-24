@@ -6,14 +6,14 @@
 
 See https://github.com/SpinGo/op-rabbit for main documentation.
 
-This fork does not add any functionality but has published jars for Scala 2.13 support (v2.2.1) and for Play-JSON 2.8.0 (v2.3.0-SNAPSHOT).
+This fork does not add any functionality but has published jars for Scala 2.13 support (v2.2.1) and for Play-JSON 2.8.0 (v2.3.0).
 
 ## Installation
 
 Op-Rabbit is available on Maven Central
 
 ```scala
-val opRabbitVersion = "2.2.1"
+val opRabbitVersion = "2.3.0"
 
 libraryDependencies ++= Seq(
   "com.github.pjfanning" %% "op-rabbit-core"        % opRabbitVersion,
@@ -24,6 +24,21 @@ libraryDependencies ++= Seq(
 ```
 
 ### Scala Version Compatibility Matrix:
+
+#### op-rabbit 2.3.x
+
+Supports Scala 2.13 and Scala 2.12.
+
+| module                       | dependsOn                | version     |
+| ---------------------------- | ------------------------ | ----------- |
+| op-rabbit-core               | akka                     | 2.5.x/2.6.x |
+|                              | akka-rabbitmq            | 5.1.x       |
+|                              | shapeless                | 2.3.x       |
+|                              | type-safe config         | 1.3.x/1.4.x |
+| op-rabbit-play-json          | play-json                | 2.8.x       |
+| op-rabbit-circe              | circe                    | 0.12.x      |
+| op-rabbit-json4s             | json4s                   | 3.6.x       |
+| op-rabbit-airbrake           | airbrake                 | 2.2.x       |
 
 #### op-rabbit 2.2.x
 
