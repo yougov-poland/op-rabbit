@@ -2,8 +2,8 @@ import java.util.Properties
 
 val json4sVersion = "3.6.7"
 val circeVersion = "0.12.3"
-val akkaVersion = "2.5.27"
-val playVersion = "2.8.0"
+val akkaVersion = "2.6.3"
+val playVersion = "2.8.1"
 
 val appProperties = {
   val prop = new Properties()
@@ -17,17 +17,17 @@ val commonSettings = Seq(
   organization := "com.github.pjfanning",
   version := appProperties.getProperty("version"),
   scalaVersion := "2.13.1",
-  crossScalaVersions := Seq("2.12.6", "2.13.1"),
+  crossScalaVersions := Seq("2.12.10", "2.13.1"),
   libraryDependencies ++= Seq(
     "com.chuusai" %%  "shapeless" % "2.3.3",
     "com.typesafe" % "config" % "1.4.0",
     "com.newmotion" %% "akka-rabbitmq" % "5.1.2",
-    "org.slf4j" % "slf4j-api" % "1.7.29",
-    "ch.qos.logback" % "logback-classic" % "1.2.3" % "test",
-    "org.scalatest" %% "scalatest" % "3.0.8" % "test",
+    "org.slf4j" % "slf4j-api" % "1.7.30",
+    "ch.qos.logback" % "logback-classic" % "1.2.3" % Test,
+    "org.scalatest" %% "scalatest" % "3.0.8" % Test,
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
-    "com.typesafe.akka" %% "akka-slf4j" % akkaVersion % "test"
+    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test,
+    "com.typesafe.akka" %% "akka-slf4j" % akkaVersion % Test
   ),
   publishMavenStyle := true,
   publishTo := {
