@@ -1,15 +1,14 @@
 package com.spingo.op_rabbit
 
 import java.net.URI
+import java.security.KeyStore
 
-import com.rabbitmq.client.Address
-import com.rabbitmq.client.ConnectionFactory
-import com.rabbitmq.client.DefaultSaslConfig
-import com.rabbitmq.client.ExceptionHandler
-import com.rabbitmq.client.SaslConfig
+import com.rabbitmq.client._
 import com.rabbitmq.client.impl.DefaultExceptionHandler
 import com.typesafe.config.Config
 import javax.net.SocketFactory
+import javax.net.ssl.{SSLContext, TrustManagerFactory, X509TrustManager}
+
 import scala.collection.JavaConverters._
 import scala.util.Try
 
@@ -25,6 +24,7 @@ case class ConnectionParams(
   password: String = ConnectionFactory.DEFAULT_PASS,
   virtualHost: String = ConnectionFactory.DEFAULT_VHOST,
   ssl: Boolean = false,
+  trustEverything: Boolean = false, //Warning: not recommended for production
   // Replace the table of client properties that will be sent to the server during subsequent connection startups.
   clientProperties: Map[String, Object] = Map.empty[String, Object],
 
@@ -58,7 +58,25 @@ case class ConnectionParams(
     sharedExecutor.foreach(factory.setSharedExecutor)
     factory.setShutdownTimeout(shutdownTimeout)
     factory.setSocketFactory(socketFactory)
-    if (ssl) factory.useSslProtocol()
+    if (ssl) {
+      if (trustEverything) {
+        factory.useSslProtocol()
+      } else {
+        val protocol = ConnectionFactory.computeDefaultTlsProtocol(
+          SSLContext.getDefault.getSupportedSSLParameters.getProtocols)
+        factory.useSslProtocol(protocol, createDefaultTrustManager())
+      }
+    }
+  }
+
+  private[op_rabbit] def createDefaultTrustManager(): X509TrustManager = {
+    val tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm)
+    tmf.init(null.asInstanceOf[KeyStore])
+    val x509TrustManagers = tmf.getTrustManagers.collectFirst {
+      case tmf: X509TrustManager => tmf
+    }
+    x509TrustManagers.headOption.getOrElse(
+      throw new IllegalStateException("Failed to find default x509TrustManager"))
   }
 }
 
@@ -73,6 +91,7 @@ object ConnectionParams {
   private val PasswordParamPath = "password"
   private val VirtualHostParamPath = "virtual-host"
   private val SslParamPath = "ssl"
+  private val TrustEverythingParamPath = "trust-everything"
   private val ConnectionTimeoutParamPath = "connection-timeout"
   private val ConnectionTimeoutParamName = "connection_timeout"
   private val HeartbeatParamName = "heartbeat"
@@ -98,7 +117,8 @@ object ConnectionParams {
       username = config.getString(UsernameParamPath),
       password = config.getString(PasswordParamPath),
       virtualHost = config.getString(VirtualHostParamPath),
-      ssl = config.getBoolean(SslParamPath)
+      ssl = config.getBoolean(SslParamPath),
+      trustEverything = config.getBoolean(TrustEverythingParamPath)
     )
   }
 
