@@ -1,8 +1,8 @@
 import java.util.Properties
 
-val json4sVersion = "3.6.7"
+val json4sVersion = "3.6.8"
 val circeVersion = "0.13.0"
-val akkaVersion = "2.6.3"
+val akkaVersion = "2.6.5"
 val playVersion = "2.8.1"
 
 val appProperties = {
@@ -16,8 +16,8 @@ val assertNoApplicationConf = taskKey[Unit]("Makes sure application.conf isn't p
 val commonSettings = Seq(
   organization := "com.github.pjfanning",
   version := appProperties.getProperty("version"),
-  scalaVersion := "2.13.1",
-  crossScalaVersions := Seq("2.12.10", "2.13.1"),
+  scalaVersion := "2.13.2",
+  crossScalaVersions := Seq("2.12.11", "2.13.1"),
   libraryDependencies ++= Seq(
     "com.chuusai" %%  "shapeless" % "2.3.3",
     "com.typesafe" % "config" % "1.4.0",
