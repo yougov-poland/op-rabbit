@@ -17,14 +17,14 @@ val commonSettings = Seq(
   organization := "com.github.pjfanning",
   version := appProperties.getProperty("version"),
   scalaVersion := "2.13.2",
-  crossScalaVersions := Seq("2.12.11", "2.13.1"),
+  crossScalaVersions := Seq("2.12.11", "2.13.2"),
   libraryDependencies ++= Seq(
     "com.chuusai" %%  "shapeless" % "2.3.3",
     "com.typesafe" % "config" % "1.4.0",
     "com.newmotion" %% "akka-rabbitmq" % "5.1.2",
     "org.slf4j" % "slf4j-api" % "1.7.30",
     "ch.qos.logback" % "logback-classic" % "1.2.3" % Test,
-    "org.scalatest" %% "scalatest" % "3.1.1" % Test,
+    "org.scalatest" %% "scalatest" % "3.1.2" % Test,
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test,
     "com.typesafe.akka" %% "akka-slf4j" % akkaVersion % Test
