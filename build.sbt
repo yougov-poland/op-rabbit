@@ -22,6 +22,7 @@ val commonSettings = Seq(
     "com.chuusai" %%  "shapeless" % "2.3.3",
     "com.typesafe" % "config" % "1.4.0",
     "com.newmotion" %% "akka-rabbitmq" % "5.1.2",
+    "com.rabbitmq" % "amqp-client" % "5.9.0",
     "org.slf4j" % "slf4j-api" % "1.7.30",
     "ch.qos.logback" % "logback-classic" % "1.2.3" % Test,
     "org.scalatest" %% "scalatest" % "3.1.2" % Test,
