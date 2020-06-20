@@ -2,14 +2,16 @@ package com.spingo.op_rabbit
 package stream
 
 import akka.actor._
-import akka.stream.{ActorAttributes, ActorMaterializer, ActorMaterializerSettings, Supervision}
+import akka.stream.{ActorAttributes, ActorMaterializer, Supervision}
 import akka.stream.scaladsl.{Keep, Sink}
 import com.rabbitmq.client.AMQP.BasicProperties
 import com.rabbitmq.client.Envelope
 import com.spingo.op_rabbit.Directives._
 import com.spingo.op_rabbit.helpers.{DeleteQueue, RabbitTestHelpers}
 import com.spingo.scoped_fixtures.ScopedFixtures
-import com.timcharper.acked.{AckedSink, AckedSource}
+import com.timcharper.acked.AckedSink
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future, Promise}
 import scala.concurrent.duration._
