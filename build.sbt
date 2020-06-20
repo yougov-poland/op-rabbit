@@ -58,7 +58,6 @@ val commonSettings = Seq(
 
 )
 
-// removed `akka-stream` temporarily
 lazy val `op-rabbit` = (project in file(".")).
   enablePlugins(ScalaUnidocPlugin).
   settings(commonSettings: _*).
@@ -66,7 +65,7 @@ lazy val `op-rabbit` = (project in file(".")).
     description := "The opinionated Rabbit-MQ plugin",
     name := "op-rabbit").
   dependsOn(core).
-  aggregate(core, `play-json`, airbrake, json4s, `spray-json`, circe)
+  aggregate(core, `play-json`, `akka-stream`, airbrake, json4s, `spray-json`, circe)
 
 
 lazy val core = (project in file("./core")).
@@ -122,18 +121,18 @@ lazy val airbrake = (project in file("./addons/airbrake/")).
     libraryDependencies += "io.airbrake" % "airbrake-java" % "2.2.8").
   dependsOn(core)
 
-//lazy val `akka-stream` = (project in file("./addons/akka-stream")).
-//  settings(commonSettings: _*).
-//  settings(
-//    name := "op-rabbit-akka-stream",
-//    libraryDependencies ++= Seq(
-//      "com.timcharper"    %% "acked-streams" % "2.1.1",
-//      "com.typesafe.akka" %% "akka-stream" % akkaVersion),
-//    unmanagedResourceDirectories in Test ++= Seq(
-//      file(".").getAbsoluteFile / "core" / "src" / "test" / "resources"),
-//    unmanagedSourceDirectories in Test ++= Seq(
-//      file(".").getAbsoluteFile / "core" / "src" / "test" / "scala" / "com" / "spingo" / "op_rabbit" / "helpers")).
-//  dependsOn(core)
+lazy val `akka-stream` = (project in file("./addons/akka-stream")).
+  settings(commonSettings: _*).
+  settings(
+    name := "op-rabbit-akka-stream",
+    libraryDependencies ++= Seq(
+      "com.timcharper"    %% "acked-streams" % "3.0.0-SNAPSHOT",
+      "com.typesafe.akka" %% "akka-stream" % akkaVersion),
+    unmanagedResourceDirectories in Test ++= Seq(
+      file(".").getAbsoluteFile / "core" / "src" / "test" / "resources"),
+    unmanagedSourceDirectories in Test ++= Seq(
+      file(".").getAbsoluteFile / "core" / "src" / "test" / "scala" / "com" / "spingo" / "op_rabbit" / "helpers")).
+  dependsOn(core)
 
 lazy val circe = (project in file("./addons/circe")).
   settings(commonSettings: _*).
